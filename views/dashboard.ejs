@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="styleshseet" href="style/dash.css">
+    <link rel="stylesheet" href="style/free.css">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto</title>
+</head>
+<body>
+   <div class="navbar-fixed" style="z-index:1020 !important;">
+  <nav class="purple darken-4">
+    <div class="nav-wrapper container">
+        <a href="#" class="brand-logo center mylogo">Crypto</a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger
+        show-on-large"><i class="fas fa-bars"></i></a>
+        
+        <ul class="sidenav black" id="mobile-demo" > 
+            <li class="myli"><div class="my-view" style="border-bottom:2px solid white  !important;" >
+                <% if (user.img==undefined || user.img==null) { %>
+                    <div class="profile-img">
+                <img src="assets/IMG_20181216_201000_786.jpg"></div>
+                    <%} else { %>
+                        <div class="profile-img">
+                        <img src="<%=user.img%>"></div>
+                    <% } %>
+                <p style="color: white"><%=user.username%></p>
+              </div></li>
+              <li><a href="/dashboard" class="blue-text active"><i class="fa fa-user blue-text"></i>Profile</a></li>
+              <li><a href="/dashboard/feeds" class="blue-text"><i class="fa fa-rss blue-text"></i>Feeds</a></li>
+              <li><a href="/dashboard/requests" class="blue-text"><i class="fa fa-users blue-text"></i>Requests<span class="badge" style="color:white;"><%= user.requests.length%></span></a></li>
+              <li><a href="/dashboard/keys" class="blue-text"><i class="fa fa-search blue-text"></i>Search</a></li>
+              <li><a href="/logout" class="blue-text"><i class="fa fa-sign-out blue-text" aria-hidden="true"></i>Logout</a></li>
+        </ul>
+    </div>
+</nav>
+</div>
+
+
+<div class="all_keys">
+  <i class="fas fa-times cross" style="position:absolute;right:5px;top:5px;cursor:pointer;"></i>
+<%if(user.key_recieves.length==0){%>
+  
+  <p><i class="fa fa-users"></i> Empty</p>
+  
+  <%}else{%>
+  <ul >
+    <% user.key_recieves.forEach((key,index)=>{%>    
+  
+<li  id="li-<%= index %>"><span><i class="fa fa-user"></i><strong><%=key.current_user%></strong></span><span class="key-for"><%=key.key%></span>
+<button class="btn wave-light red copy-btn" id="copy-btn-<%= index %>">Copy</button></li>
+
+<%})%></ul>
+<%}%>
+</div>
+
+
+<%if (user.Key==undefined || user.Key==null){%>
+<button class="gen key-bef">Gen Key</button>
+<%}%>
+<div class="fixed-action-btn btn-res">
+  <a class="btn-floating btn-large red" href="/dashboard/Create_Post">
+    <i class="fa fa-add"></i>
+  </a>
+</div>
+      
+<div class="overlay">
+<div class="preloader-wrapper active myloader">
+  <div class="spinner-layer spinner-red-only">
+    <div class="circle-clipper left">`
+      <div class="circle"></div>
+    </div><div class="gap-patch">
+      <div class="circle"></div>
+    </div><div class="circle-clipper right">
+      <div class="circle"></div>
+    </div>
+  </div>
+</div></div>
+
+<div class="overlay8">
+  <i class="fa fa-times myi" ></i>
+  <div class="image-view"></div></div>
+
+  <div class="image-viewer">
+    <i class="fa fa-times getcancel" ></i>
+    <% if(user.img==undefined || user.img==''){%>
+
+      <img src="/assets/IMG_20181216_201000_786.jpg">
+      <%}else{%>
+    <img src="<%=user.img%>">
+    <%}%>
+          </div>
+
+          <div class="edit" >
+            <input type="file" id="profilePic" accept=".jpg, .jpeg, .png" name="image" style="display:none">
+    <button id="uploadBtn"><i class="fa fa-pencil"></i></button>
+          </div>
+
+
+    <div class="new-pic">
+      <div class="overlay9">
+        
+        </div>
+
+
+      
+      <% if (user.img==undefined || user.img==null) { %>
+       
+      <img src="assets/IMG_20181216_201000_786.jpg" class="prof">
+
+    <%} else { %>
+        
+        <img src="<%=user.img%>" class="prof">
+    <%}%>
+    </div>
+    <h3 class="namer"><%=user.username%></h3>
+    <div class="stato" >
+        <p><%=user.posts.length%><span><i class="fa fa-feed" style="padding-left:10px;"></i></span> </p>
+        <p><%=user.key_recieves.length%><span><i class="fa fa-key" style="padding-left:10px"></i></span></p> 
+    </div>
+
+
+
+
+<button class="keys_view btn btn wave-effect gray" style="position:absolute;right:30%;z-index:50;top:14%;">View Keys</button>
+
+</div>
+
+
+<!--Scripts-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+<script> M.AutoInit();
+ 
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.fixed-action-btn');
+    var instances = M.FloatingActionButton.init(elems, options);
+  });
+
+  const uploadBtn = document.getElementById("uploadBtn");
+const profilePic = document.getElementById("profilePic");
+
+uploadBtn.addEventListener("click", function() {
+  profilePic.click();
+  console.log("ok")
+ 
+});
+
+
+const view=document.querySelector(".keys_view");
+view.addEventListener("click",()=>{
+  var keys=document.querySelector(".all_keys");
+  keys.style.display="flex";
+  var cross=document.querySelector(".cross");
+  cross.addEventListener("click",()=>{
+    var keys=document.querySelector(".all_keys");
+  keys.style.display="none";
+  })
+})
+
+
+
+
+  const point=document.querySelector(".new-pic");
+var img;
+var cancel
+ point.addEventListener("click",()=>{
+ img=document.querySelector(".image-viewer");
+ cancel=document.querySelector(".getcancel");
+img.style.display="flex";
+cancel.addEventListener("click",()=>{
+  
+  
+  img.style.display="none";
+})
+ })
+ var copyBtns = document.querySelectorAll('.copy-btn');
+
+copyBtns.forEach(function(btn) {
+  btn.addEventListener('click', function(event) {
+    var keyText = event.target.parentNode.querySelector('.key-for').textContent.trim();
+   btn.innerText="Copied!";
+    navigator.clipboard.writeText(keyText)
+      .then(function() {
+        console.log('Copied to clipboard!');
+      })
+      .catch(function(error) {
+        console.error('Error copying to clipboard:', error);
+      });
+  });
+});
+
+
+
+
+</script>
+<script>
+
+
+
+
+
+var overlay;
+var prof;
+profilePic.addEventListener("change", function() {
+ 
+  const viewer=document.querySelector(".overlay8");
+  viewer.style.display="block"
+  var file = profilePic.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function() {
+      const imagePreview = document.createElement("img");
+      const btn=document.createElement("button");
+      
+      btn.classList+="btn wave-light blue sender";
+      
+      imagePreview.src = reader.result;
+      imagePreview.classList+="image-view"
+      viewer.appendChild(imagePreview);
+      
+      btn.innerText="Upload";
+      viewer.appendChild(btn);
+       const cancel=document.querySelector(".myi");
+       cancel.addEventListener("click",()=>{
+        viewer.removeChild(imagePreview);
+        viewer.removeChild(btn);
+        viewer.style.display='none';
+       })
+
+    btn.addEventListener("click",(e)=>{
+      viewer.removeChild(imagePreview);
+      overlay=document.querySelector(".overlay9");
+      overlay.style.display="block";
+        viewer.removeChild(btn);
+        viewer.style.display='none';
+
+      const formData = new FormData();
+      formData.append("image", file);
+      fetch("/upload_pic", {
+        method: "POST",
+        body: formData
+      }).then(response => {
+        return response.json();
+
+      }).then(async(data)=>{
+        prof=document.querySelector(".prof");
+        prof.src=await data;
+        return data;
+        
+      }).finally(()=>{
+        
+        setTimeout(()=>{
+          overlay.style.display="none";
+        },1100);
+        
+        
+      }).catch(err=>{
+        console.log(err);
+      });
+    
+  
+    })       
+
+
+
+    };
+  }
+});
+
+
+
+  const gen=document.querySelector(".gen");  
+ 
+  const load=document.querySelector(".overlay");
+
+//generate key call
+
+gen.addEventListener("click",()=>{
+
+ 
+load.style.display="block";
+fetch("http://localhost:3000/dashboard/gen_keys",{
+  method:'Post',
+  'Content-type':'application/json'
+}).then(response => {
+    return response.json();
+
+}).then((data)=>{
+  console.log(data);
+  M.toast({html: 'Key Generated! ',displayLength:'1000'});
+
+})
+.catch(err=>{
+  console.log(err);
+})
+.finally(()=>{
+  load.style.display='none';
+  gen.style.display="none";
+})
+
+
+})
+
+
+
+
+ 
+</script>
+
+
+</body>
+</html>

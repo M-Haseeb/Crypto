@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="styleshseet" href="style/dash.css">
+    <link rel="stylesheet" href="style/free.css">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+   <div class="navbar-fixed" style="z-index:1020 !important;">
+  <nav class="purple darken-4">
+    <div class="nav-wrapper container">
+        <a href="#" class="brand-logo center mylogo">Crypto</a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger
+        show-on-large"><i class="fas fa-bars"></i></a>
+        
+        <ul class="sidenav black" id="mobile-demo" > 
+            <li class="myli"><div class="my-view " style="border-bottom:2px solid white  !important;">
+                <% if (now.img==undefined || now.img==null) { %>
+                    <div class="profile-img">
+                <img src="assets/IMG_20181216_201000_786.jpg"></div>
+                    <%} else { %>
+                        <div class="profile-img">
+                        <img src="<%=now.img%>"></div>
+                    <% } %>
+                <p style="color: white"><%=now.username%></p>
+              </div></li>
+              <li><a href="/dashboard" class="blue-text active"><i class="fa fa-user blue-text"></i>Profile</a></li>
+              <li><a href="/dashboard/feeds" class="blue-text"><i class="fa fa-rss blue-text"></i>Feeds</a></li>
+              <li><a href="/dashboard/requests" class="blue-text"><i class="fa fa-users blue-text"></i>Requests<span class="badge" style="color:white"><%= user.requests.length%></span></a></li>
+              <li><a href="/dashboard/keys" class="blue-text"><i class="fa fa-search blue-text"></i>Search</a></li>
+              <li><a href="/logout" class="blue-text"><i class="fa fa-sign-out blue-text" aria-hidden="true"></i>Logout</a></li>
+        </ul>
+    </div>
+</nav>
+</div>
+
+<div class="fixed-action-btn btn-res">
+  <a class="btn-floating btn-large red" href="/dashboard/Create_Post">
+    <i class="fa fa-add"></i>
+  </a>
+</div>
+      <div class="image-viewer">
+<i class="fa fa-times getcancel" ></i>
+<%if (user.img=='' || user.img==undefined){%>
+<img src="/assets/IMG_20181216_201000_786.jpg">
+<%}else{%>
+  <img src="<%=user.img%>">
+  <%}%>
+      </div>
+
+
+
+
+    <div class="new-pic">
+     
+<i class="fas fa-eye fa-2x text-primary" style="position:absolute;top:8%;right:14%;color:black;z-index:300;"></i>
+
+      
+      <% if (user.img==undefined || user.img==null) { %>
+       
+      <img src="assets/IMG_20181216_201000_786.jpg" class="prof">
+      
+    <%} else { %>
+        
+        <img src="<%=user.img%>" class="prof">
+        
+    <%}%>
+    
+</div>
+<h3 class="namer"><%=user.username%></h3>
+<div class="stato" >
+    <p><%=user.posts.length%><span><i class="fa fa-feed" style="padding-left:10px;"></i></span> </p>
+    <p><%=user.key_recieves.length%><span><i class="fa fa-key" style="padding-left:10px"></i></span></p> 
+</div>
+<!--Scripts-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+<script> M.AutoInit();
+ 
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.fixed-action-btn');
+    var instances = M.FloatingActionButton.init(elems, options);
+  });
+
+  
+ const point=document.querySelector(".new-pic");
+var img;
+var cancel
+ point.addEventListener("click",()=>{
+ img=document.querySelector(".image-viewer");
+ cancel=document.querySelector(".getcancel");
+img.style.display="flex";
+cancel.addEventListener("click",()=>{
+  
+  
+  img.style.display="none";
+})
+ })
+
+
+</script>
+<script>
+
+
+
+
+
+
+ 
+</script>
+
+
+</body>
+</html>

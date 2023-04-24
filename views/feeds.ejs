@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="styleshseet" href="/style/dash.css">
+    <link rel="stylesheet" href="/style/free.css">
+    <link rel="stylesheet" href="/style/feeds.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feeds</title>
+</head>
+<body>
+   <div class="navbar-fixed" style="z-index:1020 !important;">
+  <nav class="purple darken-4">
+    <div class="nav-wrapper container">
+        <a href="#" class="brand-logo center mylogo">Crypto</a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger
+        show-on-large"><i class="fas fa-bars"></i></a>
+        <ul class="sidenav black" id="mobile-demo" > 
+          <li class="myli"><div class="my-view" style="border-bottom:2px solid white  !important;">
+              <% if (user.img==undefined || user.img==null) { %>
+                  <div class="profile-img">
+              <img src="/assets/IMG_20181216_201000_786.jpg"></div>
+                  <%} else { %>
+                      <div class="profile-img">
+                      <img src="<%=user.img%>"></div>
+                  <% } %>
+              <p style="color: white"><%=user.username%></p>
+            </div></li>
+            <li><a href="/dashboard" class="blue-text "><i class="fa fa-user blue-text"></i>Profile</a></li>
+            <li><a href="/dashboard/feeds" class="blue-text active"><i class="fa fa-rss blue-text"></i>Feeds</a></li>
+            <li><a href="/dashboard/requests" class="blue-text"><i class="fa fa-users blue-text"></i>Requests<span class="badge" style="color:white;"><%= user.requests.length%></span></a></li>
+            <li><a href="/dashboard/keys" class="blue-text"><i class="fa fa-search blue-text"></i>Search</a></li>
+            <li><a href="/logout" class="blue-text"><i class="fa fa-sign-out blue-text" aria-hidden="true"></i>Logout</a></li>
+      </ul>
+    </div>
+</nav>
+</div>
+<div class="fixed-action-btn btn-res">
+    <a class="btn-floating btn-large red " href="/dashboard/Create_Post">
+      <i class="fa fa-add"></i>
+    </a>
+  </div>
+
+
+  
+
+<div class="holder">
+<div class="overlay3">
+  <div class="key_getter">
+    <i class="fa fa-times cancel_time" style="position:relative;margin-left:70%;cursor:pointer"></i>
+    <input type="text" class="key_input" placeholder="Insert Key..">
+    <button class="insert">Insert  <i class="fa fa-key"></i></button>
+  </div>
+ </div>
+ 
+<% posts.forEach(function (post){%>
+  <div class="posts">
+<!--loader-->
+
+ <!---->
+ 
+    <div class="top">
+      <p><% if(post.img==undefined || post.img=='' ){%>
+      <span><img src="/assets/IMG_20181216_201000_786.jpg" class="bug">
+      </span> 
+        <%}else{%>
+          <img src="<%=post.img%>" class="bug">
+          
+          <%}%>
+        <%if(post.username==user.username){%>
+          <span>You</span>
+          <%}else{%>
+        <%- post.username%>
+      <%}%></p>
+      <p><%- post.post.date%></p>
+    
+    </div>
+    
+    <div class="content" >
+      
+      <% if (post.post.access.includes(user.username)){ %>
+
+        <%- post.post.decrypted %>
+        <%}else{%>
+
+      <%- post.post.content %>
+    <%}%>
+  
+  </div>
+    <div class="end"><p>Status: <% if (post.post.access.includes(user.username)){ %>
+      </p>
+      <%if(post.username==user.username){%>
+        <p class="setp ">Personal</p>
+        <%}else{%>
+          <p class="setp">Unlocked <i class="fa fa-unlock" style="padding:10px;"></i></p>
+    <%}%></p>
+      <%}else {%>
+        <p class="locked"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Locked </p>
+        <button class="unlock btn red" id="<%=post.post.iv%>">Decrypt</button>
+        <%}%>
+    </div>
+  </div>
+    
+  
+<%})%>
+
+</div>
+  
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script> M.AutoInit();
+      document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.fixed-action-btn');
+        var instances = M.FloatingActionButton.init(elems, options);
+
+      });
+   const decrypt_btn=document.querySelectorAll(".unlock");
+   const send=document.querySelector(".insert");
+   var iv;
+   var inserter;
+   var content_div;
+   var over;
+   var content;
+   var l;
+   var d;
+   var scope;
+   var loader;
+   var unlock;
+   var locked;
+   var key_inserter;
+   decrypt_btn.forEach((button)=>{
+
+    button.addEventListener("click",(e)=>{
+      const cancel=document.querySelector(".cancel_time");
+      key_inserter=document.querySelector(".overlay3");
+      over=document.querySelector(".overlay4");  
+      iv=e.target.id;
+       
+      content=e.target.parentNode.previousElementSibling;
+       content=content.innerText
+      l=e.target.parentNode.previousElementSibling.nextElementSibling.childNodes[1];
+      d=e.target.parentNode.previousElementSibling.nextElementSibling.childNodes[3];
+      content_div=e.target.parentNode.previousElementSibling;
+      console.log(content_div,d);
+     
+      //loader=content_div.previousElementSibling.previousElementSibling.previousElementSibling
+      
+      key_inserter.style.display="block";
+     cancel.addEventListener("click",()=>{
+      var key_inserter=document.querySelector(".overlay3");
+      key_inserter.style.display="none";
+     document.querySelector('.key_input').value="";
+
+     })
+  
+  
+     })
+   })
+
+
+
+   send.addEventListener("click",(e)=>{
+    
+    inserter=document.querySelector('.key_input').value;
+    content_div.classList.add("freeq")
+    const data={
+      "key":inserter,
+      "iv":iv,
+      "content":content
+    }
+
+    document.querySelector('.key_input').value="";
+    key_inserter.style.display='none';
+   
+     unlock=document.querySelector(".unlock");
+    locked=document.querySelector(".locked");
+    
+    fetch('/decrypt', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data=> {
+    if(data=="user not found"){
+     window.alert("Invalid Key!");
+     content_div.classList.remove("freeq");
+     return;
+    }
+    if(data!="user not found"){
+     console.log(data)}
+    content_div.innerHTML=data
+    l.innerText="Unlocked!";
+    content_div.classList.remove("freeq");
+    d.style.display="none";})
+    .catch(error => console.error(error))
+    .finally(()=>{
+    
+      
+    });
+     
+
+   })
+   
+
+
+
+
+
+
+
+    
+      </script>
+
+
+</body>
+</html>    

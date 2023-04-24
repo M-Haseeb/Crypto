@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="styleshseet" href="/style/dash.css">
+    <link rel="stylesheet" href="/style/free.css">
+    <link rel="stylesheet" href="/style/feeds.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keys</title>
+</head>
+<body class="keys">
+   <div class="navbar-fixed" style="z-index:1020 !important;">
+  <nav class="purple darken-4">
+    <div class="nav-wrapper container">
+        <a href="#" class="brand-logo center mylogo">Crypto</a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger
+        show-on-large"><i class="fas fa-bars"></i></a>
+        
+        <ul class="sidenav black" id="mobile-demo" > 
+          <li class="myli"><div class="my-view" style="border-bottom:2px solid white  !important;">
+              <% if (user.img==undefined || user.img==null) { %>
+                  <div class="profile-img">
+              <img src="/assets/IMG_20181216_201000_786.jpg"></div>
+                  <%} else { %>
+                      <div class="profile-img">
+                      <img src="<%=user.img%>"></div>
+                  <% } %>
+              <p style="color: white"><%=user.username%></p>
+            </div></li>
+            <li><a href="/dashboard" class="blue-text "><i class="fa fa-user blue-text"></i>Profile</a></li>
+            <li><a href="/dashboard/feeds" class="blue-text"><i class="fa fa-rss blue-text"></i>Feeds</a></li>
+            <li><a href="/dashboard/requests" class="blue-text"><i class="fa fa-users blue-text"></i>Requests<span class="badge" style="color:white;"><%= user.requests.length%></span></a></li>
+            <li><a href="/dashboard/keys" class="blue-text active"><i class="fa fa-search blue-text"></i>Search</a></li>
+            <li><a href="/logout" class="blue-text"><i class="fa fa-sign-out blue-text" aria-hidden="true"></i>Logout</a></li>
+      </ul>
+    </div>
+</nav>
+</div>
+<div class="fixed-action-btn btn-res">
+    <a class="btn-floating btn-large red " href="/dashboard/Create_Post">
+      <i class="fa fa-add"></i>
+    </a>
+  </div>
+
+
+  <div class="input-field mysab">
+   <i class="fa fa-search prefix" style="font-size:20px!important;top: 20px !important;"></i>
+    <input type="text" id="autocomplete-input" class="autocomplete mysearch">
+    <label for="autocomplete-input">Search Users</label>
+  </div>
+  <button class="btn blue wave-light searcher" style="position: relative !important; margin-left:40%!important;top: 10% !important;">Search</button>
+
+<div class="users" >
+<h5><i class="fas fa-check-circle" style="padding:10px;"></i>Result</h5>
+<div class="overlay6 ">
+  <div class="preloader-wrapper active myloader">
+    <div class="spinner-layer spinner-red-only">
+      <div class="circle-clipper left">`
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div></div> 
+<div class="in-user mytest">
+    
+
+
+    <div style="position:relative;display:flex;justify-content: center;align-items: center;"><img src="/assets/IMG_20181216_201000_786.jpg" class="cairo" ><a href="#" class="username" style="color:black;text-decoration:none">test</a></div>
+  
+    
+    <div class="getter">
+      <div class="overlay7">
+        <div class="preloader-wrapper active smalloader">
+          <div class="spinner-layer spinner-black-only">
+            <div class="circle-clipper left">`
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div></div> 
+        <button class="btn green wave-light req_btn">Request Key</button>
+        <button  class="btn brown wave-light mybtb pen_btn">Pending</button>
+        <button  class="btn red wave-light mybtb acc_btn" >Key Accessed</button>
+    </div>
+          
+</div>    
+</div>
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script> M.AutoInit();
+ 
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.fixed-action-btn');
+    var instances = M.FloatingActionButton.init(elems, options);
+  });
+var user_div;
+const search=document.querySelector(".searcher");
+var user_name;
+var cairo;
+const req=document.querySelector(".req_btn");
+search.addEventListener("click",(e)=>{
+  const overlay=document.querySelector(".overlay6");
+        overlay.style.display="block";
+    user_name=document.querySelector(".mysearch").value;
+    if(user_name=='' || user_name==undefined || user_name==null){
+        e.preventDefault();
+    }
+    else{
+        const data={"name":user_name};
+        document.querySelector(".mysearch").value=""
+       cairo=document.querySelector(".cairo");
+        fetch('/getuser', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data=> {
+      console.log(data);
+      if(data=='user not found'){
+          overlay.style.display="none";
+        var b1=document.querySelector(".pen_btn");
+        var b2=document.querySelector(".req_btn");
+        var b3=document.querySelector(".acc_btn");
+        b3.style.display="none";
+        user_name.innerText=data ;
+        cairo.style.display="none";
+        b2.style.display="none";
+        b1.style.display="none";
+        var username=document.querySelector(".username");
+      username.innerText=data;
+      
+
+      user_div=document.querySelector(".users")
+    user_div.style.display="block"
+      }
+      if(data=="same"){
+        overlay.style.display="none";
+        var b1=document.querySelector(".pen_btn");
+        var b2=document.querySelector(".req_btn");
+        var b3=document.querySelector(".acc_btn");
+        b3.style.display="none";
+        b2.style.display="none";
+        b1.style.display="none";
+        var username=document.querySelector(".username");
+      username.innerText="your own profile";
+      username.href="/dashboard";
+      cairo.src="<%=user.img%>"
+      user_div=document.querySelector(".users")
+    user_div.style.display="block"
+      }
+  if(data!="user not found" && data!="same"){
+      user_div=document.querySelector(".users")
+    user_div.style.display="block"
+    var username=document.querySelector(".username");
+    username.innerText=data.name;
+     username.href=`/${data.name}`
+    cairo.src=data.image || '/assets/IMG_20181216_201000_786.jpg'}
+    if(data.type=='pending'){
+      var b1=document.querySelector(".pen_btn");
+      var b2=document.querySelector(".req_btn");
+      var b3=document.querySelector(".acc_btn");
+      b3.style.display="none";
+      b2.style.display="none";
+      b1.style.display="block";
+    
+    }
+    if(data.type=='request'){
+      console.log("req")
+      var b1=document.querySelector(".pen_btn");
+      var b2=document.querySelector(".req_btn");
+      var b3=document.querySelector(".acc_btn");
+      b3.style.display="none";
+      b2.style.display="block";
+      b1.style.display="none";
+    }
+    if(data.type=='key accessed'){
+      var b1=document.querySelector(".pen_btn");
+      var b2=document.querySelector(".req_btn");
+      var b3=document.querySelector(".acc_btn");
+      b3.style.display="block";
+      b2.style.display="none";
+      b1.style.display="none";
+    }
+   
+  
+  })
+    .catch(error => console.error(error))
+    .finally(()=>{
+      
+      overlay.style.display="none";
+
+    });
+    
+     
+
+}
+    
+
+
+})
+
+req.addEventListener("click",(e)=>{
+  const overlay=document.querySelector(".overlay7");
+  overlay.style.display="block";
+ 
+  data={"user_name":user_name};
+   var pen_btn=document.querySelector(".pen_btn");
+   
+  fetch('/requser', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(data=> {
+
+    if(data=='user not found'){
+      overlay.style.display="none";
+    var b1=document.querySelector(".pen_btn");
+    var b2=document.querySelector(".req_btn");
+    var b3=document.querySelector(".acc_btn");
+    b3.style.display="none";
+    user_name.innerText=data;
+    b2.style.display="none";
+    b1.style.display="none";
+    var username=document.querySelector(".username");
+  username.innerText=data;
+  user_div=document.querySelector(".users")
+user_div.style.display="block"
+  }
+  if(data=="same"){
+    overlay.style.display="none";
+    var b1=document.querySelector(".pen_btn");
+    var b2=document.querySelector(".req_btn");
+    var b3=document.querySelector(".acc_btn");
+    b3.style.display="none";
+    b2.style.display="none";
+    b1.style.display="none";
+    var username=document.querySelector(".username");
+  username.innerText="your own profile";
+  user_div=document.querySelector(".users")
+user_div.style.display="block"
+  }
+    
+  if(data=="requested"){
+    req.style.display="none";
+    pen_btn.style.display="block";
+    
+  }
+
+})
+  .catch(error => console.error(error))
+  .finally(()=>{
+    
+    overlay.style.display="none";
+
+  });
+  
+
+})
+  
+</script>
+
+
+</body>
+</html>

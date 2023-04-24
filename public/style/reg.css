@@ -1,0 +1,139 @@
+*{
+    box-sizing: border-box;
+    padding:0;
+    margin:0;
+}
+body{
+    background: rgba(190,255,255,0.9);
+}
+.container{
+    width:100%;
+    margin: auto;
+    display: flex;
+    height: 600px;
+    justify-content: center;
+    align-items: center;
+
+}
+.myclass{
+    position:relative;
+    top:-15%;
+    background-color:rgba(255,130,120);
+    z-index:25;
+    right:10%;
+    font-size:14px;
+    font-weight:lighter;
+    border-radius: 4px;
+    letter-spacing: 1.1px;
+    padding:5px 23px;
+    color:white;
+
+    
+}
+.logo{
+    position: absolute;
+    top:12px;
+    left:20px;
+    
+}
+
+
+.login-div{
+    position:relative;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color:rgba(255,255,255,0.7);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    height:450px;
+    border-radius: 5px;
+    width: 400px;
+}
+.form-head{
+    position: relative;
+    bottom:18%;
+    right:22%;
+}
+.form-head p{
+    margin-top: 9px;
+}
+form{
+    position: relative;
+    bottom:2px;
+    height:180px;
+    width:270px;
+    right:38px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items:left;
+    flex-direction: column;
+}
+
+form input{
+    padding:10px 20px;
+    width:100%;
+    font-size:18px;
+    margin:7px 0;
+    border:1px solid rgba(0,0,0,0.4);
+    border-radius: 5px;
+}
+.form-head h1{
+    color:darkblue;
+    font-weight: bolder;
+}
+
+form input:focus,form input:checked{
+    outline: none;
+    background-color: white;
+}
+
+.forget{
+    position:relative;
+    margin-top: 11px;
+    text-decoration:none;
+    font-weight:bolder;
+    color:darkblue;
+    font-size: 19px;
+}
+.log-btn{
+    cursor: pointer;
+    display:inline-block;
+    position:relative;
+    margin-top:40px;
+    padding:14px 18px;
+    font-size:18px;
+    color:white;
+    font-weight: 500;
+    border-radius: 35px;
+    background-color: blue;
+    border:none;
+}
+.below-p{
+    position:relative;
+    top:32px;
+    font-size:15px;
+    font-weight: 500;
+}
+.below-p a{
+    text-decoration: none;
+    font-weight:600;
+    font-size:16px;
+    position: relative;
+    left:5px;
+}
+
+@media(max-width:400px){
+    .login-div{
+        box-shadow: none;
+        left:10px;
+    }
+    .forget{
+        font-weight: bold;
+        font-size: 17px;
+    }
+    .logo{
+        top:24px;
+        left:25px;
+    }
+}
