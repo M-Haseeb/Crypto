@@ -1,7 +1,7 @@
 const express=require("express");
 const User=require("../model/user");
 const passport=require("passport");
-require("../config/strategy")(passport);
+require("../Config/strategy")(passport);
 const mongoose=require("mongoose");
 const crypto=require("crypto");
 const moment=require("moment");
