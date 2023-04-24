@@ -15,7 +15,7 @@ dotenv.config({path:'./config/config.env'});
 
 
 //setting database
-db=require("./config/db");
+db=require("./Config/db");
 db();
 
 
