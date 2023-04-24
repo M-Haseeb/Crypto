@@ -7,7 +7,7 @@ const passport=require("passport");
 const dotenv=require("dotenv");
 const ejs=require("ejs");
 const path=require("path");
-require("./config/strategy")(passport);
+require("./Config/strategy")(passport);
 
 
 //setting environment
